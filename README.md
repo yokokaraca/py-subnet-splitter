@@ -40,3 +40,10 @@ and raises `InvalidPrefixError`. Requesting more subnets or hosts than the
 address space allows raises `TooManySubnetsError`. For IPv4, `split_by_hosts`
 subtracts two addresses per subnet for the network and broadcast addresses; for
 IPv6 it subtracts one for the subnet-router anycast address.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
